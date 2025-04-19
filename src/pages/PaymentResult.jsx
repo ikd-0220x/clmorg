@@ -1,64 +1,65 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Helmet } from "react-helmet";
-import PaymentResultModal from '../components/PaymentResultModal';
-
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { $api } from "../utils/index";
+import { Spinner, Typography, Card } from "@material-tailwind/react";
 
 const PaymentResult = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [paymentInfo, setPaymentInfo] = useState({});
+  const [searchParams] = useSearchParams();
+  const [status, setStatus] = useState("pending");
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const paymentIds = params.getAll('payment_id');
-    const paymentStatus = params.get('payment_status');
-    const lastPaymentId = paymentIds[paymentIds.length - 1];
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user?.id;
+    const sendPaymentResult = async () => {
+      const paymentId = searchParams.get("payment_id");
+      const paymentStatus = searchParams.get("payment_status");
+      const userId = localStorage.getItem("user_id"); 
 
-    if (userId && lastPaymentId && paymentStatus) {
-      setPaymentInfo({
-        user_id: userId,
-        payment_id: lastPaymentId,
-        payment_status: paymentStatus,
-      });
+      if (!paymentId || !paymentStatus || !userId) {
+        setStatus("error");
+        return;
+      }
 
-      // Modalni ochamiz
-      setModalOpen(true);
-    }
-  }, []);
+      try {
+        const res = await $api.post("/payment/callback", {
+          user_id: userId,
+          payment_id: paymentId,
+          payment_status: paymentStatus,
+        });
 
-  const handleConfirm = () => {
-    axios.post('https://backendclm.uz/api/payment/callback', paymentInfo)
-      .then(response => {
-        console.log('Success:', response.data);
-        alert("Tangalar muvaffaqiyatli qo‘shildi!");
-        setModalOpen(false);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert("Xatolik yuz berdi.");
-      });
-  };
+        if (res.data.success) {
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      } catch (error) {
+        console.error("To‘lovni tekshirishda xatolik:", error);
+        setStatus("error");
+      }
+    };
+
+    sendPaymentResult();
+  }, [searchParams]);
 
   return (
-    <>
-      <Helmet>
-        <title>Payment Result - CLM</title>
-        <meta name="description" content="To‘lov ma'lumotlari qayta ishlanmoqda..." />
-      </Helmet>
-
-      {/* <div className="text-center mt-10 text-green-600">
-        <h2>To‘lov ma'lumotlari qayta ishlanmoqda...</h2>
-      </div> */}
-
-      <PaymentResultModal
-        open={modalOpen}
-        onClose={() => {}} 
-        onConfirm={handleConfirm}
-        confirmOnly 
-      />
-    </>
+    <Card className="w-full max-w-md mx-auto mt-10 p-6 text-center">
+      {status === "pending" && (
+        <>
+          <Spinner className="mx-auto" />
+          <Typography variant="h6" className="mt-4">
+            To‘lov natijasi tekshirilmoqda...
+          </Typography>
+        </>
+      )}
+      {status === "success" && (
+        <Typography variant="h5" color="green">
+          ✅ To‘lov muvaffaqiyatli yakunlandi!
+        </Typography>
+      )}
+      {status === "error" && (
+        <Typography variant="h5" color="red">
+          ❌ To‘lovda muammo yuz berdi!
+        </Typography>
+      )}
+    </Card>
   );
 };
 

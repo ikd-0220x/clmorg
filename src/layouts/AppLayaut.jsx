@@ -1,50 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Outlet } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import SiteBar from '../components/SiteBar';
-import Footer from '../components/Footer';
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import SiteBar from "../components/SiteBar";
+import Footer from "../components/Footer";
 
 export default function AppLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const sidebarRef = useRef(null);
 
+    // Sidebar-ni ochish/yopish funksiyasi
+    const toggleSidebar = () => {
+        setIsSidebarOpen((prev) => !prev);
+    };
+
+    // Kichik ekranlarda sidebar avtomatik yopiladi
     useEffect(() => {
         if (window.innerWidth < 700) {
             setIsSidebarOpen(false);
         }
     }, []);
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(prev => !prev);
-    };
-
-    const handleOutsideClick = (event) => {
-        if (
-            sidebarRef.current &&
-            !sidebarRef.current.contains(event.target) &&
-            isSidebarOpen &&
-            window.innerWidth < 700 // optional: faqat kichik ekranlarda
-        ) {
-            setIsSidebarOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [isSidebarOpen]);
-
     return (
-        
         <div className="flex h-screen overflow-hidden">
-            {isSidebarOpen && <SiteBar ref={sidebarRef} />}
+            {/* Sidebar */}
+            <SiteBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
+            {/* Main Content */}
             <div className="flex flex-col w-full">
-                <Navbar toggleSidebar={toggleSidebar} />
+                {/* Navbar */}
+                <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+
+                {/* Page Content */}
                 <div className="h-[90vh] overflow-y-scroll">
                     <Outlet />
                 </div>
+
+                {/* Footer */}
                 <Footer />
             </div>
         </div>

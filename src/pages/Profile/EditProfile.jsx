@@ -74,7 +74,7 @@ export default function EditProfile() {
         <title>Edit Profile - CLM</title>
         <meta
           name="description"
-          content="Foydalanuvchi ma’lumotlarini tahrirlash sahifasi. Ismingiz, login, email va boshqa tafsilotlarni o‘zgartiring."
+          content="Edit user information page. Change your name, login, email, and other details."
         />
       </Helmet>
 

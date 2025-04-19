@@ -38,7 +38,7 @@ export default function UserProfile() {
         <title>User Profile - CLM</title>
         <meta
           name="description"
-          content="Shaxsiy profilingizni ko‘ring va o‘zgartiring. CLM hisobingiz bilan bog‘liq barcha ma’lumotlar shu yerda."
+          content="View and edit your personal profile. All information related to your CLM account is here."
         />
       </Helmet>
 

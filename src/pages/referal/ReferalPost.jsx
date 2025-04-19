@@ -43,7 +43,7 @@ export default function ReferalPost() {
         <title>Create Referral Link - CLM</title>
         <meta
           name="description"
-          content="Yangi referral link yarating va boshqalar bilan ulashing. Do‘stlaringizni taklif qiling va bonusga ega bo‘ling!"
+          content="Create a new referral link and share it with others. Invite your friends and get a bonus!"
         />
       </Helmet>
 

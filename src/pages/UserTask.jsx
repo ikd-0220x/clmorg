@@ -65,7 +65,7 @@ export default function UserTask() {
         <title>My Tasks - CLM</title>
         <meta
           name="description"
-          content="Siz bajarishingiz kerak bo‘lgan vazifalar ro‘yxatini ko‘ring. Har bir topshiriq uchun bonuslar mavjud."
+          content="See a list of tasks you need to complete. There are bonuses for each task."
         />
       </Helmet>
       <div className="container mx-auto px-4">

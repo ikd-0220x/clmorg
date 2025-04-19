@@ -94,7 +94,7 @@ export default function ProfileImage() {
         <title>Change Profile Photo - CLM</title>
         <meta
           name="description"
-          content="Profil rasmingizni yuklang yoki yangilang. Platformadagi ko‘rinishingizni sozlang."
+          content="Upload or update your profile picture. Customize your appearance on the platform."
         />
       </Helmet>
 

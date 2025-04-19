@@ -132,13 +132,6 @@ export default function AvatarMenu() {
         onConfirm={handleSignOut}
       />
 
-      {/* 🔹 Delete Account Modal */}
-      {/* <DeleteAccount
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteAccount}
-        className="z-[1000]"
-      /> */}
     </>
   );
 }
