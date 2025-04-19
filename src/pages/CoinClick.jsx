@@ -41,7 +41,7 @@ export function CoinClick() {
       // console.log("API response:", data);/
 
       if (data?.payment_url) {
-        window.location.href = data.payment_url + `&redirect_url=https://clmgo.org/payment-result`;
+        window.location.href = data.payment_url;
       } else {
         alert("To‘lov havolasi topilmadi.");
       }
