@@ -26,7 +26,7 @@ const LoginImage = () => {
         // No role-related redirection
         localStorage.setItem("token", response?.data?.token)
         localStorage.setItem("role", response?.data?.role)
-        navigate("/"); // Redirect to home after successful login
+        navigate("/dashboard"); // Redirect to home after successful login
       } else {
         setError(response.data.message || "Login failed");
       }
