@@ -1,7 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/dashboard'); 
+    } else {
+      navigate('/login'); 
+    }
+  }, [navigate]);
+ 
+
   return (
     <div className="relative flex items-center justify-center h-screen overflow-hidden bg-white md:bg-transparent">
       {/* Video background: faqat md dan katta ekranlarda ko‘rsatiladi */}
@@ -36,7 +49,7 @@ const Auth = () => {
             to="/login"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full font-semibold transition duration-300 block text-center"
           >
-            Login
+           Access the system 
           </Link>
         </div>
 

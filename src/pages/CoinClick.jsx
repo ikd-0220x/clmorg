@@ -9,7 +9,6 @@
     Typography,
   } from "@material-tailwind/react";
   import { $api } from "../utils/index";
-  import PaymentModal from "../components/PaymentModal";
   import { Helmet } from "react-helmet";
 
   const TABLE_HEAD = ["Coins", "Amount", "Count"];
@@ -35,6 +34,7 @@
         const response = await $api.post("/payment/initiate", {
           type: "gold",
           quantity: 5,
+          redirect_url: "https://clmgo.org/paymentResult",
         });
 
         const data = response.data;
@@ -142,12 +142,6 @@
           </CardFooter>
         </Card>
 
-        {/* Modal oynasi */}
-        <PaymentModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onConfirm={handlePayment}
-        />
       </>
     );
   }
